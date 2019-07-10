@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+	<!-- 数据库驱动包位置 -->
+    <!--mysql 5 -->
+    <classPathEntry location="mysql-connector-java-5.0.8.jar" />
+    <!--mysql8-->
+    <!--<classPathEntry location="mysql-connector-java-8.0.11.jar" />-->
+    <!--db2-->
+    <classPathEntry location="db2jcc-1.4.2.jar" />
+    <classPathEntry location="db2jcc_license_cu-1.4.2.jar" />
+
+
+
+    <context id="test" targetRuntime="MyBatis3">
+		<plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
+
+		<commentGenerator>
+			<!-- 这个元素用来去除指定生成的注释中是否包含生成的日期 false:表示保护; 如果生成日期，会造成即使修改一个字段，整个实体类所有属性都会发生变化，不利于版本控制，所以设置为true -->
+			<property name="suppressDate" value="true" />
+			<!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+			<property name="suppressAllComments" value="true" />
+			<!-- 设置是否在getter方法中，对String类型字段调用trim()方法 -->
+			<property name="trimStrings" value="true" />
+		</commentGenerator>
+
+
+        <!--mysql5-->
+		<!--数据库链接URL，用户名、密码 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://127.0.0.1:3306/analysedb?characterEncoding=UTF-8" userId="root" password="123456">
+            <property name="nullCatalogMeansCurrent" value="true"/>
+        </jdbcConnection>
+
+        <!--mysql8-->
+        <!--<jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://127.0.0.1:3306/deepwater?serverTimezone=UTC&autoReconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false" userId="root" password="123456"></jdbcConnection>-->
+
+        <!-- db2
+     BUG: 在db2中，我在另一个DMC的schema中有一个表，然后ROOT有一个相同表名的表，但列不同，数据库连接是这样的jdbc:db2://10.0.113.47:50000/DMC:currentSchema=ROOT; 结果生成的时候这个程序是使用的是DMC下的表生成的VO对象。
+-->
+        <!--<jdbcConnection
+                driverClass="com.ibm.db2.jcc.DB2Driver"
+                connectionURL="jdbc:db2://10.0.113.47:50000/DMC:currentSchema=ROOT;"
+                userId="db2inst1"
+                password="db2inst1"
+        />-->
+
+
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+
+        <!-- 生成模型的包名和位置 -->
+        <javaModelGenerator targetPackage="com.csii.dt.vo"  targetProject="./">
+            <property name="enableSubPackages" value="true" />
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+
+        <!-- 生成映射文件的包名和位置 -->
+        <sqlMapGenerator targetPackage="com.csii.dt.mapping.xml" targetProject="./">
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+
+        <!-- 生成DAO的包名和位置 -->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.csii.dt.mapper" targetProject="./">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+
+        <!--        <table tableName="dw_plugin_info"
+                       domainObjectName="DwPluginInfo"
+                       enableCountByExample="false"
+                       enableUpdateByExample="false"
+                       enableDeleteByExample="false"
+                       enableSelectByExample="false"
+                       selectByExampleQueryId="false" >
+                    <property name="useActualColumnNames" value="false" />
+                </table>-->
+        <!--<table tableName="dw_gplot_node"
+                       domainObjectName="DwGplotNode"
+                       enableCountByExample="false"
+                       enableUpdateByExample="false"
+                       enableDeleteByExample="false"
+                       enableSelectByExample="false"
+                       selectByExampleQueryId="false" >
+        <property name="useActualColumnNames" value="false" />
+    </table>-->
+        <!--<table tableName="dw_gplot_project"
+               domainObjectName="DwGplotProject"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false" >
+            <property name="useActualColumnNames" value="false" />
+        </table>-->
+        <!--
+        <table tableName="dw_gplot"
+               domainObjectName="DwGplot"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false" >
+            <property name="useActualColumnNames" value="false" />
+        </table>-->
+
+        <!-- <table tableName="dt_sys_info"
+                domainObjectName="DtSysInfo"
+                enableCountByExample="false"
+                enableUpdateByExample="false"
+                enableDeleteByExample="false"
+                enableSelectByExample="false"
+                selectByExampleQueryId="false" >
+             <property name="useActualColumnNames" value="false" />
+         </table>
+         <table tableName="dt_table_info"
+                domainObjectName="DtTableInfo"
+                enableCountByExample="false"
+                enableUpdateByExample="false"
+                enableDeleteByExample="false"
+                enableSelectByExample="false"
+                selectByExampleQueryId="false" >
+             <property name="useActualColumnNames" value="false" />
+         </table>-->
+        <!--<table tableName="dt_code_info"-->
+        <!--domainObjectName="DtCodeInfo"-->
+        <!--enableCountByExample="false"-->
+        <!--enableUpdateByExample="false"-->
+        <!--enableDeleteByExample="false"-->
+        <!--enableSelectByExample="false"-->
+        <!--selectByExampleQueryId="false" >-->
+        <!--<property name="useActualColumnNames" value="false" />-->
+        <!--</table>-->
+        <!--<table tableName="dt_code_mapping"-->
+               <!--domainObjectName="DtCodeMapping"-->
+               <!--enableCountByExample="false"-->
+               <!--enableUpdateByExample="false"-->
+               <!--enableDeleteByExample="false"-->
+               <!--enableSelectByExample="false"-->
+               <!--selectByExampleQueryId="false" >-->
+            <!--<property name="useActualColumnNames" value="false" />-->
+            <!--<property name="nullCatalogMeansCurrent" value="true"/>-->
+        <!--</table>-->
+
+	</context>
+</generatorConfiguration>
