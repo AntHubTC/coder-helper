@@ -1,0 +1,14 @@
+启动应用时添加VM启动参数：-javaagent:E:\1_WORK\code_helper\lib\springloaded-1.2.5.RELEASE.jar -noverify
+
+-noverify 参数 
+通过使用 -noverify 参数，关闭 Java 字节码的校验功能。 
+当 ClassLoader 加载的Java 字节码时，字节码首先接受校验器（verifier）的校验。校验器负责检查那些指令无法执行的明显的破坏性的操作。校验器执行的检查操作： 
+1、变量要在使用之前进行初始化。 
+2、方法调用与对象应用类型之间要匹配。 
+3、访问私有数据和方法的规则没有被违反。 
+4、对本地变量的访问都在运行时堆栈内。 
+5、运行时堆栈没有溢处。 
+
+
+使用总结：
+   在idea中如果只改动了一个文件，可以只编译这个文件。使用快捷键ctrl+shift+F9。
