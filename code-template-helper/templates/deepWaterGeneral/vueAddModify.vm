@@ -1,0 +1,170 @@
+#parse("/templates/xmLheadComment.vm")
+<template>
+    <div class="${ctx.mainClass}">
+        <v-header :title="pageMode === 'ADD' ? '${ctx.addTitle}' : '$ctx.modifyTitle'" >
+            <template slot="left" slot-scope="{ title }">
+                <p class="title lf">
+                    <span title="返回" @click="$emit('navigate', '${ctx.backBtnToPage}')" class="iconfont icon-back back-btn"/>
+                    {{title}}
+                </p>
+            </template>
+        </v-header>
+        <div class="${ctx.mainClass}-content">
+            <el-form
+                    ref="form"
+                    :model="formData"
+                    :rules="formRules"
+                    size="${ctx.form.size}"
+                    label-width="${ctx.form.labelWidth}"
+                    label-position="${ctx.form.labelPosition}">
+#foreach($formItem in $ctx.form.formItems)
+                    <el-form-item label="${formItem.label}" prop="${formItem.name}">
+                        <el-input v-model="formData.${formItem.component.name}"
+                                  placeholder="${formItem.component.placeholder}">
+                        </el-input>
+                    </el-form-item>
+#end
+            </el-form>
+            <div class="form-button-box">
+                <el-button @click="resetForm()" size="small" class="dialog-btn">重置</el-button>
+                <el-button @click="submitFormData" type="primary" size="small" class="dialog-btn">保存</el-button>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script type="text/ecmascript-6">
+    import {
+        ${ctx.form.addURLName},
+        ${ctx.form.modifyURLName}
+    } from '@api/url'
+    import ajax from '@api/ajax'
+    import {
+#foreach($validator in $ctx.form.getValidators())
+        ${validator}#if(!$foreach.last),#end
+
+#end
+    } from '@asst/js/rules'
+    import { createNamespacedHelpers } from 'vuex'
+    const { mapState } = createNamespacedHelpers('common/generalCURD')
+
+    export default {
+        name: '${ctx.mainClass}',
+        data () {
+            return {
+                pageMode: {
+                    type: String,
+                    default: 'ADD'
+                },
+                currentItem: {
+                },
+                formData: {},
+                formRules: {
+#foreach($formRuleEntry in $ctx.form.getFormRules().entrySet())
+                    ${formRuleEntry.key}: [
+#foreach($formRule in $formRuleEntry.value)
+                        ${formRule}#if(!$foreach.last),#end
+
+#end
+                    ]#if(!$foreach.last),#end
+
+#end
+                }
+            }
+        },
+        computed: {
+            ...mapState({
+                pageModeInStore: 'pageMode',
+                currentEditItemInStore: 'currentEditItem'
+            })
+        },
+        methods: {
+            addShow () {
+                this.pageMode = 'ADD'
+
+                this.currentItem = {}
+                this.formData = {...this.currentItem}
+            },
+            editShow (selUserNode) {
+                this.pageMode = 'MODIFY'
+
+                this.currentItem = selUserNode
+                this.formData = {...this.currentItem}
+            },
+            ardCancelBtnClick () {
+                this.formData = {}
+                #[[this.$refs.form.clearValidate()]]#
+            },
+            resetForm () {
+                this.formData = {...this.currentItem}
+                #[[this.$refs.form.clearValidate()]]#
+            },
+            preHandFormData (formData) {
+                return formData
+            },
+            add (postData, callback) {
+                ajax.post(${ctx.form.addURLName}, postData).then(res => {
+                    callback && callback()
+                }).catch(e => {
+                    console.error('新增系统参数发生错误！')
+                })
+            },
+            update  (postData, callback) {
+                ajax.post(${ctx.form.modifyURLName}, postData).then(res => {
+                    callback && callback()
+                }).catch(e => {
+                    console.error('修改系统参数发生错误！')
+                })
+            },
+            submitFormData () {#[[
+                this.$refs.form.validate((valid) => {
+                if (valid) {
+                    let postData = this.preHandFormData(this.formData)
+                    let callback = () => {
+                        this.$message({
+                            type: 'success',
+                            message: '保存成功!'
+                        })
+                        this.$emit('navigate', ]]#'${ctx.backBtnToPage}')
+                    }
+                    if (this.pageMode === 'ADD') {
+                        this.add(postData, callback)
+                    } else {
+                        this.update(postData, callback)
+                    }
+                    } else {
+                        return false
+                    }
+                })
+            }
+        },
+        created () {
+            // this.formData = JSON.parse(JSON.stringify(this.currentItem))
+            if (this.pageModeInStore === 'ADD') {
+                this.addShow()
+            } else {
+                this.editShow(this.currentEditItemInStore)
+            }
+        }
+    }
+</script>
+
+<style lang="stylus" rel="stylesheet/stylus">
+    .${ctx.mainClass}
+        .v-header
+            .back-btn
+                margin-right 5px
+                cursor pointer
+            &:hover
+                color #ddd
+        .${ctx.mainClass}-content
+            width 500px
+            padding 20px
+            .form-button-box
+                text-align right
+            .el-form
+                .el-date-editor
+                    width 260px !important
+                .el-select
+                    width 100%
+</style>

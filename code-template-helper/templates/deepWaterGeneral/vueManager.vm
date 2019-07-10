@@ -1,0 +1,42 @@
+#parse("/templates/xmLheadComment.vm")
+<template>
+    <div class="${ctx.mainClass}">
+        <v-navigate-page ref="navigator" :pageConfig="pageConfig">
+            <${ctx.mainPageComponentClass} slot="mainPage" @navigate="navigateTo"/>
+            <${ctx.addModifyPageComponentClass} slot="addModifyPage" @navigate="navigateTo"/>
+        </v-navigate-page>
+    </div>
+</template>
+
+<script type="text/ecmascript-6">
+    import ${ctx.mainPageComponentName} from './${ctx.mainPageComponentName}'
+    import ${ctx.addModifyPageComponentName} from './${ctx.addModifyPageComponentName}'
+
+    export default {
+        name: '${ctx.mainClass}',
+        components: {
+            ${ctx.mainPageComponentName},
+            ${ctx.addModifyPageComponentName}
+        },
+        data () {#[[
+            return {
+                pageConfig: {
+                    active: 'mainPage',
+                    pages: ['mainPage', 'addModifyPage']
+                }
+            }
+        },
+        methods: {
+            // 前往某一页
+            navigateTo (page) {
+                this.$refs.navigator.navigate(page)
+            }
+        }]]#
+    }
+</script>
+
+<style lang="stylus" rel="stylesheet/stylus">
+.${ctx.mainClass}
+    height 100%
+    width 100%
+</style>

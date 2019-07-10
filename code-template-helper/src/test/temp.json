@@ -1,0 +1,27 @@
+{
+  "label": "系统编号",
+  "name": "sysNo",
+  "component": {
+    "type": "input",
+    "name": "sysNo",
+    "placeholder": "请在此输入"
+  },
+  "rules": [
+    {
+      "required": true,
+      "message": "此项为必输项",
+      "trigger": "blur"
+    },
+    {
+      "min": 1,
+      "max": 4,
+      "message": "长度在 1 到 4 之间",
+      "trigger": "blur"
+    },
+    {
+      "validator": "numLetteValidators",
+      "message": "",
+      "trigger": "blur"
+    }
+  ]
+}
