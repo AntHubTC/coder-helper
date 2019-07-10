@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+/**
+ * 代码生成任务
+ */
 public class GETask implements Runnable {
 
     private GEContext context;
@@ -41,6 +44,9 @@ public class GETask implements Runnable {
         FileWriter fw = null;
         try {
             File outputFile = new File(om.getOutPath(), om.getOutFileName());
+            if (outputFile.exists()) {
+                outputFile.delete();
+            }
             if (!outputFile.getParentFile().exists()) {
                 outputFile.getParentFile().mkdirs();
             }
