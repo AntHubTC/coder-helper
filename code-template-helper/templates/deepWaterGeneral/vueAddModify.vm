@@ -19,9 +19,9 @@
                     label-position="${ctx.form.labelPosition}">
 #foreach($formItem in $ctx.form.formItems)
                     <el-form-item label="${formItem.label}" prop="${formItem.name}">
-                        <el-input v-model="formData.${formItem.component.name}"
+                        <${formItem.component.type} v-model="formData.${formItem.component.name}"
                                   placeholder="${formItem.component.placeholder}">
-                        </el-input>
+                        </${formItem.component.type}>
                     </el-form-item>
 #end
             </el-form>
