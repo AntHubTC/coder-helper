@@ -6,6 +6,7 @@
                 @row-dblclick="rowDblClicked"
                 highlight-current-row
                 v-loading="tableLoading"
+                height="100%"
                 @row-click="rowClicked">
             <!-- 扩展部分 -->
             <slot name="extendStartSlot"></slot>
