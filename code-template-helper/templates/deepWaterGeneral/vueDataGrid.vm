@@ -107,5 +107,6 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-
+.${ctx.mainClass}
+    height 100%
 </style>
